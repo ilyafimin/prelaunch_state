@@ -48,6 +48,9 @@ const App = () => {
         setshowSuccesModal(true)
         setTimeout(() => setshowSuccesModal(false), 3000);
         setTimeout(() => setIsSucces(false), 3000);
+    } else {
+      setshowSuccesModal(true);
+      setTimeout(() => setshowSuccesModal(false), 3000);
     };
 
   }
@@ -129,7 +132,7 @@ const App = () => {
           <h1>Температура</h1>
           <div className="line"></div>
           <p>
-            Средняя температура: { temp && Number(temp) / 10 }
+            Средняя температура: { temp && (Number(temp) / 10) }
           </p>
         </div>
         <div className="card">
