@@ -8,7 +8,7 @@ const App = () => {
 
   const [scanerValues, setScanerValues] = useState([]);
   const [showSuccesModal, setshowSuccesModal] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
+  const [isSucces, setIsSucces] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [currentStateId, setCurrentStateId] = useState(1);
   const [temp, setTemp] = useState(0);
@@ -43,11 +43,11 @@ const App = () => {
       };
     });
 
-    if (true) {
-      setIsSuccess(true);
-      setshowSuccesModal(true)
-      setTimeout(() => setshowSuccesModal(false), 3000);
-      setTimeout(() => setIsSuccess(false), 3000);
+      if ((temp > 350 && temp < 375) && ((beat_per_m > 70 && beat_per_m < 120) || (bet_avg > 70 && bet_avg < 120)) && (gsr > 60 && gsr < 300)) {
+        setIsSucces(true);
+        setshowSuccesModal(true)
+        setTimeout(() => setshowSuccesModal(false), 3000);
+        setTimeout(() => setIsSucces(false), 3000);
     };
 
   }
@@ -57,10 +57,10 @@ const App = () => {
     writeSerialPort('1,1;', 3000); // Initilization
     const interval = setInterval(() => {
       let localid = ++id;
-      writeSerialPort(`1,${localid};`, 3000);
+      writeSerialPort(`1,${localid}`, 3000);
       setCurrentStateId(localid - 1);
       if (id >= 3) clearInterval(interval);
-    }, id == 2 ? time * 1000 * 3 : time * 1000);
+    }, time * 1000);
     sleep((time + 2) * 1000 );
     setTimeout(() => readSerialPort(3000, id, scanerValues, setScanerValues),  time * 1000 * 3 + 2000); // Read Port
     setTimeout(() => closeSerialPort(3000), time * 1000 * 3 + 4000); // Close Port
@@ -79,7 +79,7 @@ const App = () => {
           <div className="overlay">
             <div className="overlay__modal">
               <h1>
-                { isSuccess ? 'Вы допущены': 'Вы не допущены' }
+                {isSucces ? 'вы допущены' : 'вы не допущены'}
               </h1>
             </div>
           </div>
@@ -92,7 +92,7 @@ const App = () => {
             >
               <div className="overlay__modal">
                 <span 
-                  class="material-symbols-outlined" 
+                  className="material-symbols-outlined" 
                   style={{
                     fontSize: '6rem',
                   }}>
@@ -110,7 +110,7 @@ const App = () => {
           className="serialportget__btn"
           onClick={() => {
             setShowModal(true);
-            gettingData(5);
+            gettingData(30);
           }}
         >
           <p>Считать показатели</p>
@@ -136,10 +136,10 @@ const App = () => {
           <h1>Пульс</h1>
           <div className="line"></div>
           <p>
-            Средний пульс: { pulse.bet_avg && pulse.bet_avg }
+            Средний пульс 1: { pulse.bet_avg && pulse.bet_avg }
           </p>
           <p>
-            Среднее количество ударов в минуту: { pulse.beat_per_m && pulse.beat_per_m }
+            Средний пульс 2: { pulse.beat_per_m && pulse.beat_per_m }
           </p>
         </div>
         <div className="card">
